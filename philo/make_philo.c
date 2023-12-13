@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 23:30:56 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/13 15:11:28 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:43:57 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ void	clean_all(t_data *data, t_thre *tid, int total)
 		pthread_mutex_destroy(&(data->share->mutex[i++]));
 	}
 	pthread_mutex_destroy(&(data->share->die_mutex));
+	free(data->share->mutex);
+	free(data);
 	free(tid);
 }
