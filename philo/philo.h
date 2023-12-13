@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 23:29:03 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/13 15:05:45 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:53:35 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			make_philo(int ac, char **av, int num_philo, t_data *data);
 int			share_init(t_share *share, int num_philo);
 int			data_init(t_data *data, int i, int ac, char **av);
 void		end_philo(t_data *data, t_thre *tid);
-void		clean_all(t_data *data, t_thre *tid, int total);
+void		clean_all(t_data *data, int i, t_thre *tid, int total);
 
 /* start_eating.c */
 void		*sit_table(void *tmp);

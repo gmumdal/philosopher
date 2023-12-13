@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 23:30:56 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/13 15:44:47 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:53:16 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,28 +92,27 @@ void	end_philo(t_data *data, t_thre *tid)
 		if (i != total)
 			break ;
 	}
-	if (data[i].must_eat > 0)
-		printf("\033[0;31m%lld %d died\n",
-			time_stamp() - data[0].share->start_time, i + 1);
-	clean_all(data, tid, total);
+	clean_all(data, i, tid, total);
 }
 
-void	clean_all(t_data *data, t_thre *tid, int total)
+void	clean_all(t_data *data, int j, t_thre *tid, int total)
 {
 	int		i;
 	void	*re;
 
 	pthread_mutex_lock(&(data[0].share->die_mutex));
+	if (data[j].must_eat > 0)
+		printf("\033[0;31m%lld %d died\n",
+			time_stamp() - data[0].share->start_time, j + 1);
 	data[0].share->die = 1;
 	pthread_mutex_unlock(&(data[0].share->die_mutex));
 	i = 0;
 	while (i < total)
 	{
 		pthread_join(tid[i], &re);
-		pthread_mutex_destroy(&(data->share->mutex[i++]));
+		pthread_mutex_destroy(&(data[0].share->mutex[i++]));
 	}
-	pthread_mutex_destroy(&(data->share->die_mutex));
-	free(data->share->mutex);
-	free(data);
+	pthread_mutex_destroy(&(data[0].share->die_mutex));
+	free(data[0].share->mutex);
 	free(tid);
 }
