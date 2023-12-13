@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 23:37:26 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/13 15:16:36 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:45:48 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*sit_table(void *tmp)
 	data->share->count++;
 	pthread_mutex_unlock(&(data->share->die_mutex));
 	while (data->share->count != data->share->total)
-		printf("%d\n", data->share->count);
+		;
 	data->last_eat = time_stamp();
 	if (data->sit % 2 == 1)
 		ft_usleep(data->t.eat);
