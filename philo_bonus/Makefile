@@ -1,7 +1,7 @@
-NAME = philo
-SRCS = philo.c philo_make.c philo_sitting.c philo_print.c
+NAME = philo_bonus
+SRCS = ph_bonus.c ph_make_bonus.c ph_print_bonus.c ph_utils_bonus.c ph_sema_bonus.c
 OBJS = $(SRCS:.c=.o)
-INCS = philo.h
+INCS = ph_bonus.h
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 

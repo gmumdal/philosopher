@@ -1,32 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ph_bonus.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/26 16:23:26 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/29 13:02:03 by hyeongsh         ###   ########.fr       */
+/*   Created: 2023/12/26 20:42:59 by hyeongsh          #+#    #+#             */
+/*   Updated: 2023/12/29 21:04:03 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "ph_bonus.h"
 
 int	main(int ac, char **av)
 {
-	t_data	*data;
-	int		num_philo;
+	t_data	data;
 
 	if (ac != 5 && ac != 6)
-		return (error_print());
-	num_philo = ph_atoi(av[1]);
-	if (num_philo == -1)
-		return (error_print());
-	data = (t_data *)malloc(sizeof(t_data) * num_philo);
-	if (data == 0)
-		return (error_print());
-	make_philo(ac, av, num_philo, data);
-	free(data);
+		error_print(2);
+	if ((data_init(&data, av)) == -1)
+		error_print(2);
+	make_philo(&data);
+	return (0);
+}
+
+int	data_init(t_data *data, char **av)
+{
+	data->sit = -1;
+	data->start_time = 0;
+	data->last_eat = 0;
+	data->num_philo = ph_atoi(av[1]);
+	data->t.die = ph_atoi(av[2]) * 1000;
+	data->t.eat = ph_atoi(av[3]) * 1000;
+	data->t.sleep = ph_atoi(av[4]) * 1000;
+	data->must_eat = ph_atoi(av[5]);
+	if (data->num_philo < 0 || data->t.die < 0 || data->t.eat < 0
+		|| data->t.sleep < 0 || data->must_eat == -1)
+		return (-1);
+	make_sem_file(data);
+	make_print_sem_file(data);
+	make_must_sem_file(data);
 	return (0);
 }
 
@@ -34,6 +47,8 @@ int	ph_atoi(char *str)
 {
 	long	toss;
 
+	if (str == NULL)
+		return (-2);
 	toss = 0;
 	while (*str >= '0' && *str <= '9' && *str != 0)
 	{
@@ -45,25 +60,4 @@ int	ph_atoi(char *str)
 	if (toss > 2147483647)
 		return (-1);
 	return (toss);
-}
-
-long long	time_stamp(void)
-{
-	struct timeval	te;
-
-	gettimeofday(&te, NULL);
-	return ((te.tv_sec * 1000) + (te.tv_usec / 1000));
-}
-
-int	error_print(void)
-{
-	write(2, "Error!\n", 7);
-	return (0);
-}
-
-int	error_free(t_thre *tid, t_share *share)
-{
-	free(tid);
-	free(share->mutex);
-	return (error_print());
 }
