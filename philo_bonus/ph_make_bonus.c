@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 20:44:42 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/01 12:44:17 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/01 14:50:22 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ void	make_child(t_data *data)
 void	*monitoring(void *tmp)
 {
 	t_data	*data;
+	int		flag;
 
+	flag = 0;
 	data = (t_data *)tmp;
 	while (42)
 	{
@@ -77,15 +79,13 @@ void	*monitoring(void *tmp)
 			sem_wait(data->print_sem);
 			exit(0);
 		}
-		else if (data->must_eat == 0)
+		else if (flag == 0 && data->must_eat == 0)
 		{
 			sem_post(data->must_sem);
-			break ;
+			flag = 1;
 		}
 		usleep(100);
 	}
-	while (42)
-		usleep(100);
 	return (data);
 }
 
