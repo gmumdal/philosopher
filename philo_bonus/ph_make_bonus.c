@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 20:44:42 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/29 21:22:05 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/01 12:44:17 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	make_philo(t_data *data)
 		}
 		i++;
 	}
-	start_setting(data);
 	wait_children(data, pid);
 }
 
@@ -123,6 +122,7 @@ void	*must_monitor(void *tmp)
 
 	data = (t_data *)tmp;
 	i = 0;
+	start_setting(data);
 	while (i++ < data->num_philo)
 		sem_wait(data->must_sem);
 	sem_wait(data->print_sem);
