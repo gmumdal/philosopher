@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:57:16 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/29 20:18:19 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:35:47 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,24 @@ void	make_must_sem_file(t_data *data)
 		data->must_sem = sem_open(data->sem_name,
 				O_CREAT | O_EXCL, 0644, data->num_philo);
 		if (data->must_sem != SEM_FAILED)
+			break ;
+		free(data->sem_name);
+	}
+	sem_unlink(data->sem_name);
+	free(data->sem_name);
+}
+
+void	make_eat_sem_file(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (++i)
+	{
+		data->sem_name = ph_name_make("eat", i);
+		data->eat_sem = sem_open(data->sem_name,
+				O_CREAT | O_EXCL, 0644, 1);
+		if (data->sem != SEM_FAILED)
 			break ;
 		free(data->sem_name);
 	}

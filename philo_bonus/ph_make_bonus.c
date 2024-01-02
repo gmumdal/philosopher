@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 20:44:42 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/01 14:50:22 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:43:38 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,43 +50,28 @@ void	make_child(t_data *data)
 		ph_usleep(data->t.eat / 2);
 	while (42)
 	{
-		sem_wait(data->sem);
-		print_fork(data);
-		sem_wait(data->sem);
-		print_fork(data);
-		data->last_eat = time_stamp();
-		print_eat(data);
-		if (data->must_eat > 0)
-			data->must_eat--;
-		sem_post(data->sem);
-		sem_post(data->sem);
+		ph_eat_and_fork(data);
 		print_sleep(data);
 		print_think(data);
 	}
 }
 
-void	*monitoring(void *tmp)
+void	ph_eat_and_fork(t_data *data)
 {
-	t_data	*data;
-	int		flag;
-
-	flag = 0;
-	data = (t_data *)tmp;
-	while (42)
-	{
-		if ((time_stamp() - data->last_eat) * 1000 > data->t.die)
-		{
-			sem_wait(data->print_sem);
-			exit(0);
-		}
-		else if (flag == 0 && data->must_eat == 0)
-		{
-			sem_post(data->must_sem);
-			flag = 1;
-		}
-		usleep(100);
-	}
-	return (data);
+	sem_wait(data->sem);
+	print_fork(data);
+	sem_wait(data->sem);
+	print_fork(data);
+	sem_wait(data->eat_sem);
+	data->last_eat = time_stamp();
+	sem_post(data->eat_sem);
+	print_eat(data);
+	sem_wait(data->eat_sem);
+	if (data->must_eat > 0)
+		data->must_eat--;
+	sem_post(data->eat_sem);
+	sem_post(data->sem);
+	sem_post(data->sem);
 }
 
 void	wait_children(t_data *data, pid_t *pid)
@@ -113,23 +98,4 @@ void	wait_children(t_data *data, pid_t *pid)
 	}
 	free(pid);
 	exit(0);
-}
-
-void	*must_monitor(void *tmp)
-{
-	t_data	*data;
-	int		i;
-
-	data = (t_data *)tmp;
-	i = 0;
-	start_setting(data);
-	while (i++ < data->num_philo)
-		sem_wait(data->must_sem);
-	sem_wait(data->print_sem);
-	i = 0;
-	while (i < data->num_philo)
-		kill(data->pid[i++], SIGKILL);
-	free(data->pid);
-	exit(0);
-	return (data);
 }

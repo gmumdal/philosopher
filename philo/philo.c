@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:23:26 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/29 13:02:03 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:09:36 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,4 @@ int	ph_atoi(char *str)
 	if (toss > 2147483647)
 		return (-1);
 	return (toss);
-}
-
-long long	time_stamp(void)
-{
-	struct timeval	te;
-
-	gettimeofday(&te, NULL);
-	return ((te.tv_sec * 1000) + (te.tv_usec / 1000));
-}
-
-int	error_print(void)
-{
-	write(2, "Error!\n", 7);
-	return (0);
-}
-
-int	error_free(t_thre *tid, t_share *share)
-{
-	free(tid);
-	free(share->mutex);
-	return (error_print());
 }

@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 20:42:59 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/29 21:04:03 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:34:36 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	data_init(t_data *data, char **av)
 	make_sem_file(data);
 	make_print_sem_file(data);
 	make_must_sem_file(data);
+	make_eat_sem_file(data);
 	return (0);
 }
 

@@ -1,9 +1,9 @@
 NAME = philo
-SRCS = philo.c philo_make.c philo_sitting.c philo_print.c
+SRCS = philo.c philo_make.c philo_sitting.c philo_print.c philo_ending.c philo_utils.c
 OBJS = $(SRCS:.c=.o)
 INCS = philo.h
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
 
 all : $(NAME)
 

@@ -1,9 +1,9 @@
 NAME = philo_bonus
-SRCS = ph_bonus.c ph_make_bonus.c ph_print_bonus.c ph_utils_bonus.c ph_sema_bonus.c
+SRCS = ph_bonus.c ph_make_bonus.c ph_print_bonus.c ph_utils_bonus.c ph_sema_bonus.c ph_monitor_bonus.c
 OBJS = $(SRCS:.c=.o)
 INCS = ph_bonus.h
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
 
 all : $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 20:16:28 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/29 15:01:09 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:11:15 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,65 +69,12 @@ int	data_init(t_data *data, int i, int ac, char **av)
 {
 	data->sit = i;
 	data->last_eat = 0;
+	pthread_mutex_init(&(data->eat_mutex), 0);
 	if (ac == 6)
 		data->must_eat = ph_atoi(av[5]);
 	else
 		data->must_eat = -2;
 	if (data->must_eat == -1)
 		return (-1);
-	return (0);
-}
-
-int	end_philo(t_data *data, t_thre *tid)
-{
-	int		i;
-	int		eat_num;
-	t_share	*share;
-
-	share = data[0].share;
-	i = -1;
-	while (++i < share->total)
-		while (data[i].last_eat == 0)
-			usleep(10);
-	while (42)
-	{
-		i = -1;
-		eat_num = 0;
-		while (++i < share->total)
-		{
-			if ((time_stamp() - data[i].last_eat) * 1000 > share->t.die)
-				return (clean_all(data, i, tid, share->total));
-			if (data[i].must_eat == 0)
-				eat_num++;
-			if (eat_num == share->total)
-				return (clean_all(data, i, tid, share->total));
-		}
-	}
-	return (1);
-}
-
-int	clean_all(t_data *data, int j, t_thre *tid, int total)
-{
-	int		i;
-	void	*re;
-
-	pthread_mutex_lock(&(data[0].share->die_mutex));
-	pthread_mutex_lock(&(data[0].share->print_mutex));
-	if (data[j].must_eat == -2)
-		printf("\033[0;31m%lld %d died\n",
-			time_stamp() - data[0].share->start_time, j + 1);
-	data[0].share->die = 1;
-	data[0].share->print = 1;
-	pthread_mutex_unlock(&(data[0].share->print_mutex));
-	pthread_mutex_unlock(&(data[0].share->die_mutex));
-	i = 0;
-	while (i < total)
-	{
-		pthread_join(tid[i], &re);
-		pthread_mutex_destroy(&(data[0].share->mutex[i++]));
-	}
-	pthread_mutex_destroy(&(data[0].share->die_mutex));
-	free(data[0].share->mutex);
-	free(tid);
 	return (0);
 }

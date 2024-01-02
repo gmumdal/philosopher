@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 23:29:03 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/29 21:01:02 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:44:32 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_data
 	sem_t		*sem;
 	sem_t		*print_sem;
 	sem_t		*must_sem;
+	sem_t		*eat_sem;
 	t_time		t;
 	pid_t		*pid;
 }	t_data;
@@ -57,6 +58,7 @@ int			ph_atoi(char *str);
 void		make_sem_file(t_data *data);
 void		make_print_sem_file(t_data *data);
 void		make_must_sem_file(t_data *data);
+void		make_eat_sem_file(t_data *data);
 char		*ph_name_make(char *base, int i);
 
 /* ph_make_bonus */
@@ -64,6 +66,7 @@ void		make_philo(t_data *data);
 void		make_child(t_data *data);
 void		*monitoring(void *tmp);
 void		wait_children(t_data *data, pid_t *pid);
+void		ph_eat_and_fork(t_data *data);
 void		*must_monitor(void *tmp);
 
 /* ph_utils_bonus */

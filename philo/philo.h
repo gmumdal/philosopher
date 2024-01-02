@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 23:29:03 by hyeongsh          #+#    #+#             */
-/*   Updated: 2023/12/27 13:49:15 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:10:43 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,21 @@ typedef struct s_data
 	int			sit;
 	int			must_eat;
 	long long	last_eat;
+	t_mutex		eat_mutex;
 	t_share		*share;
 }	t_data;
 
 /* philo */
 int			ph_atoi(char *str);
-long long	time_stamp(void);
-int			error_print(void);
-int			error_free(t_thre *tid, t_share *share);
 
 /* philo_make */
 int			make_philo(int ac, char **av, int num_philo, t_data *data);
 int			share_init(t_share *share, int num_philo, char **av);
 int			data_init(t_data *data, int i, int ac, char **av);
+
+/* philo_ending */
 int			end_philo(t_data *data, t_thre *tid);
+void		start_monitor(t_data *data);
 int			clean_all(t_data *data, int j, t_thre *tid, int total);
 
 /* philo_sitting */
@@ -71,6 +72,13 @@ void		*sit_one(void *tmp);
 void		*sit_table(void *tmp);
 void		start_eating(t_data *data, int right, int left);
 void		ph_mutex_lock(t_data *data, int right, int left);
+void		ph_fork_and_eat(t_data *data, int right, int left);
+void		start_sit(int *right, int *left, t_data *data);
+
+/* philo_utils */
+long long	time_stamp(void);
+int			error_print(void);
+int			error_free(t_thre *tid, t_share *share);
 int			ft_usleep(int time, t_data *data);
 
 /* philo_print */
