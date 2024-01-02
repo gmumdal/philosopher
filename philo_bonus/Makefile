@@ -3,7 +3,7 @@ SRCS = ph_bonus.c ph_make_bonus.c ph_print_bonus.c ph_utils_bonus.c ph_sema_bonu
 OBJS = $(SRCS:.c=.o)
 INCS = ph_bonus.h
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror
 
 all : $(NAME)
 

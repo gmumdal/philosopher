@@ -3,7 +3,7 @@ SRCS = philo.c philo_make.c philo_sitting.c philo_print.c philo_ending.c philo_u
 OBJS = $(SRCS:.c=.o)
 INCS = philo.h
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror
 
 all : $(NAME)
 
