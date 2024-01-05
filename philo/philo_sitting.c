@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 20:17:38 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/02 17:09:12 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/05 12:40:37 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@ void	*sit_one(void *tmp)
 	t_data	*data;
 
 	data = (t_data *)tmp;
+	pthread_mutex_lock(&(data->share->start_mutex));
 	data->share->start_time = time_stamp();
+	pthread_mutex_unlock(&(data->share->start_mutex));
+	pthread_mutex_lock(&(data->eat_mutex));
 	data->last_eat = time_stamp();
+	pthread_mutex_unlock(&(data->eat_mutex));
 	while (42)
 	{
 		pthread_mutex_lock(&(data->share->die_mutex));
@@ -28,10 +32,7 @@ void	*sit_one(void *tmp)
 			return (data);
 		}
 		pthread_mutex_unlock(&(data->share->die_mutex));
-		pthread_mutex_lock(&(data->share->mutex[0]));
-		print_fork(data);
-		while (data->share->die == 0)
-			usleep(100);
+		sit_one_util(data);
 		pthread_mutex_unlock(&(data->share->mutex[0]));
 	}
 	return (data);
@@ -102,9 +103,9 @@ void	start_eating(t_data *data, int right, int left)
 
 void	ph_fork_and_eat(t_data *data, int right, int left)
 {
-	pthread_mutex_lock(&(data->share->mutex[left]));
-	print_fork(data);
 	pthread_mutex_lock(&(data->share->mutex[right]));
+	print_fork(data);
+	pthread_mutex_lock(&(data->share->mutex[left]));
 	print_fork(data);
 	pthread_mutex_lock(&(data->eat_mutex));
 	data->last_eat = time_stamp();

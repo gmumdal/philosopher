@@ -6,11 +6,28 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:09:26 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/02 17:09:50 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/05 12:40:36 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	sit_one_util(t_data *data)
+{
+	pthread_mutex_lock(&(data->share->mutex[0]));
+	print_fork(data);
+	while (42)
+	{
+		pthread_mutex_lock(&(data->share->die_mutex));
+		if (data->share->die != 0)
+		{
+			pthread_mutex_unlock(&(data->share->die_mutex));
+			return ;
+		}
+		pthread_mutex_unlock(&(data->share->die_mutex));
+		usleep(100);
+	}
+}
 
 int	ft_usleep(int time, t_data *data)
 {

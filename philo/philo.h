@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 23:29:03 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/02 17:10:43 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/05 12:40:38 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void		ph_fork_and_eat(t_data *data, int right, int left);
 void		start_sit(int *right, int *left, t_data *data);
 
 /* philo_utils */
+void		sit_one_util(t_data *data);
 long long	time_stamp(void);
 int			error_print(void);
 int			error_free(t_thre *tid, t_share *share);
