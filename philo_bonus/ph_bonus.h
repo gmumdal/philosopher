@@ -6,7 +6,7 @@
 /*   By: hyeongsh <hyeongsh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 23:29:03 by hyeongsh          #+#    #+#             */
-/*   Updated: 2024/01/02 17:44:32 by hyeongsh         ###   ########.fr       */
+/*   Updated: 2024/01/08 16:42:10 by hyeongsh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void		*monitoring(void *tmp);
 void		wait_children(t_data *data, pid_t *pid);
 void		ph_eat_and_fork(t_data *data);
 void		*must_monitor(void *tmp);
+int			ending(t_data *data);
 
 /* ph_utils_bonus */
 long long	time_stamp(void);
